@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Film, Sparkles, Brain, Cpu, ArrowRight, AlertCircle } from 'lucide-react';
 
 interface PredictionResult {
   lstm: {
@@ -43,7 +44,7 @@ export default function Home() {
       const data = await response.json();
       setResult(data);
     } catch (err) {
-      setError('Failed to analyze review. Make sure the Python API server is running (python api_server.py)');
+      setError('Failed to connect to API server. Please make sure Flask is running: python api_server.py');
       console.error(err);
     } finally {
       setLoading(false);
@@ -51,162 +52,262 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <main className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            IMDB Review Sentiment Analyzer
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Analyze movie reviews using LSTM and RNN models
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            ⚠️ English reviews only
-          </p>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="review" className="block text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">
-                Enter Your Movie Review
-              </label>
-              <textarea
-                id="review"
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                className="w-full h-48 px-4 py-3 text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400 resize-none transition-colors"
-                placeholder="Type your movie review here... (e.g., 'This movie was absolutely amazing! The acting was superb and the story kept me engaged throughout.')"
-                required
-              />
+    <div className="min-h-screen bg-white dark:bg-neutral-950">
+      {/* Hero Section */}
+      <section className="border-b border-neutral-200 dark:border-neutral-800">
+        <div className="container mx-auto px-6 py-20 max-w-6xl">
+          <div className="flex flex-col items-center text-center space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-full">
+              <Sparkles className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
+              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                AI-Powered Sentiment Analysis
+              </span>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading || !review.trim()}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:hover:scale-100 disabled:cursor-not-allowed shadow-lg"
-            >
-              {loading ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Analyzing...
-                </span>
-              ) : (
-                'Analyze Review'
-              )}
-            </button>
-          </form>
+            <h1 className="text-6xl font-semibold text-neutral-900 dark:text-neutral-50 max-w-3xl leading-tight">
+              Analyze Movie Reviews Instantly
+            </h1>
 
-          {error && (
-            <div className="mt-6 p-4 bg-red-100 dark:bg-red-900/30 border-2 border-red-400 dark:border-red-600 rounded-xl">
-              <p className="text-red-700 dark:text-red-400 font-medium">{error}</p>
+            <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl">
+              Use advanced LSTM and RNN neural networks to determine if a movie review is positive or negative. Fast, accurate, and powered by TensorFlow.
+            </p>
+
+            <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-500">
+              <Film className="w-4 h-4" />
+              <span>English reviews only</span>
+            </div>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid md:grid-cols-3 gap-6 mt-16">
+            <div className="p-6 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 rounded-xl">
+              <div className="w-10 h-10 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center mb-4">
+                <Brain className="w-5 h-5 text-white dark:text-neutral-900" />
+              </div>
+              <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">
+                LSTM Model
+              </h3>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                Long Short-Term Memory network for understanding context and long-range dependencies
+              </p>
+            </div>
+
+            <div className="p-6 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 rounded-xl">
+              <div className="w-10 h-10 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center mb-4">
+                <Cpu className="w-5 h-5 text-white dark:text-neutral-900" />
+              </div>
+              <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">
+                RNN Model
+              </h3>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                Recurrent Neural Network for sequential pattern recognition and fast inference
+              </p>
+            </div>
+
+            <div className="p-6 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 rounded-xl">
+              <div className="w-10 h-10 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center mb-4">
+                <Sparkles className="w-5 h-5 text-white dark:text-neutral-900" />
+              </div>
+              <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">
+                Dual Analysis
+              </h3>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                Compare results from both models for higher accuracy and confidence validation
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Analysis Section */}
+      <main className="container mx-auto px-6 py-16 max-w-4xl">
+        <div className="space-y-8">
+          {/* Input Form */}
+          <div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="review" className="block text-sm font-medium text-neutral-900 dark:text-neutral-100 mb-3">
+                  Enter your movie review
+                </label>
+                <div className="relative">
+                  <textarea
+                    id="review"
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                    className="w-full h-48 px-4 py-3 text-neutral-900 dark:text-neutral-100 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-900 dark:focus:ring-neutral-100 focus:border-transparent resize-none transition-all placeholder:text-neutral-400 dark:placeholder:text-neutral-600"
+                    placeholder="This movie was absolutely amazing! The cinematography was stunning and the story kept me engaged..."
+                    required
+                  />
+                </div>
+                <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-500">
+                  Minimum 10 characters required
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading || !review.trim() || review.length < 10}
+                className="w-full bg-neutral-900 dark:bg-neutral-100 hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:bg-neutral-300 dark:disabled:bg-neutral-700 text-white dark:text-neutral-900 font-medium py-4 px-6 rounded-xl transition-all disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 dark:border-neutral-900/30 border-t-white dark:border-t-neutral-900 rounded-full animate-spin" />
+                    <span>Analyzing...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Analyze Review</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {error && (
+              <div className="mt-6 p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-xl flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-red-900 dark:text-red-400 mb-1">Connection Error</p>
+                  <p className="text-xs text-red-700 dark:text-red-500">{error}</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Results */}
+          {result && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="flex items-center gap-3">
+                <div className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
+                <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+                  Analysis Complete
+                </span>
+                <div className="h-px flex-1 bg-neutral-200 dark:bg-neutral-800" />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* LSTM Result */}
+                <div className="bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center">
+                        <Brain className="w-5 h-5 text-white dark:text-neutral-900" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">LSTM</h3>
+                        <p className="text-xs text-neutral-500 dark:text-neutral-500">Long Short-Term Memory</p>
+                      </div>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
+                      result.lstm.sentiment === 'Positive'
+                        ? 'bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-900/50'
+                        : 'bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50'
+                    }`}>
+                      {result.lstm.sentiment}
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">Confidence</span>
+                        <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                          {(result.lstm.confidence * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-neutral-200 dark:bg-neutral-800 rounded-full h-2 overflow-hidden">
+                        <div
+                          className={`h-2 rounded-full transition-all duration-700 ${
+                            result.lstm.sentiment === 'Positive'
+                              ? 'bg-green-600 dark:bg-green-500'
+                              : 'bg-red-600 dark:bg-red-500'
+                          }`}
+                          style={{ width: `${result.lstm.confidence * 100}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-neutral-500 dark:text-neutral-500">Raw Score</span>
+                        <span className="text-sm font-mono text-neutral-700 dark:text-neutral-300">
+                          {result.lstm.score.toFixed(4)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* RNN Result */}
+                <div className="bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center">
+                        <Cpu className="w-5 h-5 text-white dark:text-neutral-900" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">RNN</h3>
+                        <p className="text-xs text-neutral-500 dark:text-neutral-500">Recurrent Neural Network</p>
+                      </div>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
+                      result.rnn.sentiment === 'Positive'
+                        ? 'bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-900/50'
+                        : 'bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50'
+                    }`}>
+                      {result.rnn.sentiment}
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">Confidence</span>
+                        <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                          {(result.rnn.confidence * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-neutral-200 dark:bg-neutral-800 rounded-full h-2 overflow-hidden">
+                        <div
+                          className={`h-2 rounded-full transition-all duration-700 ${
+                            result.rnn.sentiment === 'Positive'
+                              ? 'bg-green-600 dark:bg-green-500'
+                              : 'bg-red-600 dark:bg-red-500'
+                          }`}
+                          style={{ width: `${result.rnn.confidence * 100}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-neutral-500 dark:text-neutral-500">Raw Score</span>
+                        <span className="text-sm font-mono text-neutral-700 dark:text-neutral-300">
+                          {result.rnn.score.toFixed(4)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
+      </main>
 
-        {result && (
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* LSTM Result */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border-t-4 border-purple-500">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-2xl">🧠</span>
-                </div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">LSTM Model</h2>
-              </div>
-              
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Sentiment</p>
-                  <div className={`inline-block px-6 py-3 rounded-full text-xl font-bold ${
-                    result.lstm.sentiment === 'Positive'
-                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                      : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                  }`}>
-                    {result.lstm.sentiment === 'Positive' ? '😊 Positive' : '😞 Negative'}
-                  </div>
-                </div>
-                
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Confidence</p>
-                  <div className="flex items-center">
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
-                      <div
-                        className={`h-full transition-all duration-500 ${
-                          result.lstm.sentiment === 'Positive' ? 'bg-green-500' : 'bg-red-500'
-                        }`}
-                        style={{ width: `${result.lstm.confidence * 100}%` }}
-                      ></div>
-                    </div>
-                    <span className="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
-                      {(result.lstm.confidence * 100).toFixed(1)}%
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Raw Score</p>
-                  <p className="text-lg font-mono text-gray-900 dark:text-white">{result.lstm.score.toFixed(4)}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* RNN Result */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border-t-4 border-blue-500">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-2xl">🔮</span>
-                </div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">RNN Model</h2>
-              </div>
-              
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Sentiment</p>
-                  <div className={`inline-block px-6 py-3 rounded-full text-xl font-bold ${
-                    result.rnn.sentiment === 'Positive'
-                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                      : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                  }`}>
-                    {result.rnn.sentiment === 'Positive' ? '😊 Positive' : '😞 Negative'}
-                  </div>
-                </div>
-                
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Confidence</p>
-                  <div className="flex items-center">
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
-                      <div
-                        className={`h-full transition-all duration-500 ${
-                          result.rnn.sentiment === 'Positive' ? 'bg-green-500' : 'bg-red-500'
-                        }`}
-                        style={{ width: `${result.rnn.confidence * 100}%` }}
-                      ></div>
-                    </div>
-                    <span className="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
-                      {(result.rnn.confidence * 100).toFixed(1)}%
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Raw Score</p>
-                  <p className="text-lg font-mono text-gray-900 dark:text-white">{result.rnn.score.toFixed(4)}</p>
-                </div>
-              </div>
+      {/* Footer */}
+      <footer className="border-t border-neutral-200 dark:border-neutral-800 mt-16">
+        <div className="container mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Powered by TensorFlow • LSTM & RNN Models
+            </p>
+            <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-500">
+              <span>Built with Next.js & Flask</span>
             </div>
           </div>
-        )}
-
-        <div className="mt-12 text-center">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Powered by TensorFlow • LSTM & RNN Models
-          </p>
         </div>
-      </main>
+      </footer>
     </div>
   );
 }
