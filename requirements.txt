@@ -1,0 +1,9 @@
+# Flask API Dependencies
+flask==3.0.0
+flask-cors==4.0.0
+
+# TensorFlow untuk load model .h5
+tensorflow==2.15.0
+
+# NumPy (required by TensorFlow)
+numpy==1.26.2
