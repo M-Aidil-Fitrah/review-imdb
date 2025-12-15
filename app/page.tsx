@@ -406,10 +406,10 @@ export default function Home() {
         <div className="container mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Didukung oleh TensorFlow • Model LSTM & RNN
+              Analisis Review Film dengan LSTM & RNN
             </p>
             <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-500">
-              <span>Dibangun dengan Next.js & Flask</span>
+              <span>Kelompok 3</span>
             </div>
           </div>
         </div>
